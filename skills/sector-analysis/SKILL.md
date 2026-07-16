@@ -22,9 +22,9 @@ description: "多机构辩论模式赛道分析。六维分析→六家机构评
 ### Phase 2: 六维赛道分析
 
 加载 `references/analysis-framework.md`，逐个维度执行：
-1. 使用 web search 获取该维度的最新数据
+1. 使用 web search 获取该维度的最新公开数据
 2. 每个维度输出评分（1-10）+ 核心判断 + 辩论触发点标注
-3. 标注数据来源
+3. 每一条数据标注来源，按可靠性分级（详见 analysis-framework.md）
 
 ### Phase 3: 六机构独立评估
 
@@ -36,8 +36,8 @@ description: "多机构辩论模式赛道分析。六维分析→六家机构评
 ### Phase 4: 公司层扫描
 
 加载 `references/company-scan.md`：
-1. 使用 web search 获取赛道内的上市公司数据
-2. 使用 web search 获取未上市公司融资信息
+1. 使用 web search 获取赛道内的上市公司数据（优先财报/行情）
+2. 使用 web search 获取未上市公司融资信息（优先公开报道）
 3. 生成公司对比表
 4. 输出投资信号
 
