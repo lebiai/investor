@@ -49,7 +49,7 @@ echo ""
 
 # ── Step 3: 注册 5 个投资人技能 ────────────────────────
 echo "┌─ [3/6] 注册投资人技能 ──────────────────────────┐"
-SKILL_LIST="investor-workbench investor-sector-analysis investor-research-digest investor-template-prod investor-content-prod investor-deal-sourcing"
+SKILL_LIST="investor-workbench investor-sector-analysis investor-research-digest investor-content-prod investor-deal-sourcing"
 for skill in $SKILL_LIST; do
     TARGET="$CODEX_SKILLS_DIR/$skill"
     if [ -L "$TARGET" ] || [ -d "$TARGET" ]; then

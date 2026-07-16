@@ -33,7 +33,6 @@
 | `investor-workbench` | "开工" / "初始化" | 总入口 + 初始化 |
 | `investor-sector-analysis` | "分析一下[赛道]" | 赛道分析（六维+机构+公司扫描+辩论） |
 | `investor-research-digest` | "帮我整理这个" | 文件→MD→知识库自动沉淀 |
-| `investor-template-prod` | "用[模板名]生成一份" | 上传模板→解析结构→按模板生成文档 |
 | `investor-content-prod` | "帮我写一篇[话题]" | 知识库驱动内容生产 |
 | `investor-deal-sourcing` | "帮我扫描[领域]" | 项目 sourcing |
 | `markitdown` | 自动调用 | 微软文件转 MD（依赖） |
