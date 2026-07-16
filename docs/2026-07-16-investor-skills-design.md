@@ -457,7 +457,7 @@ npx docsify serve .     ← 本地启动，浏览器打开即可浏览
 ```bash
 # 1. 删除仅与本环境相关的文件（如 .env 中的 API key）
 # 2. 打包
-tar czf investor-skills.tar.gz investor-skills/
+tar czf 投资人.tar.gz 投资人/
 
 # 3. 在投资人 Codex 环境解压
 # 4. 投资人使用触发词即可使用，无需额外配置
