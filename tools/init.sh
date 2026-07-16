@@ -10,7 +10,7 @@ set -euo pipefail
 # ── 路径 ──────────────────────────────────────────────
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CODEX_SKILLS_DIR="${CODEX_SKILLS_DIR:-$HOME/.codex/skills}"
-export PATH="$HOME/.cargo/bin:/usr/local/bin:/opt/homebrew/bin:$PATH"
+# PATH is managed by each install script; init.sh does not override it
 
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
@@ -85,7 +85,7 @@ uvx --python 3.12 --from "markitdown[all]" markitdown --help >/dev/null 2>&1 || 
 echo "  ✅ MarkItDown 就绪"
 echo ""
 
-# ── Step 5: docsify ────────────────────────────────────
+# ── Step 7: docsify ────────────────────────────────────
 echo "┌─ [6/8] 安装 Office 文件生成依赖 ────────────────┐"
 if python3 -c "import docx" 2>/dev/null && python3 -c "import pptx" 2>/dev/null && python3 -c "import openpyxl" 2>/dev/null; then
     echo "  ✅ python-docx / python-pptx / openpyxl 已安装"
@@ -99,14 +99,17 @@ echo ""
 echo "┌─ [7/8] 安装 docsify (知识库浏览) ───────────────┐"
 if command -v docsify &>/dev/null; then
     echo "  ✅ docsify 已安装"
-else
+elif command -v npm &>/dev/null; then
     echo "  安装中..."
     npm install -g docsify-cli
     echo "  ✅ docsify 安装完成"
+else
+    echo "  ⚠️  npm 不可用，跳过 docsify"
+    echo "  知识库浏览可选，需 Node.js + npm 后手动安装: npm install -g docsify-cli"
 fi
 echo ""
 
-# ── Step 6: 创建 outputs/ ──────────────────────────────
+# ── Step 8: 创建 outputs/ ──────────────────────────────
 echo "┌─ [8/8] 创建产出目录 ────────────────────────────┐"
 mkdir -p "$PROJECT_DIR/outputs"
 echo "  ✅ $PROJECT_DIR/outputs/"
@@ -129,8 +132,7 @@ echo "║  • "帮我扫描[领域]"    项目 sourcing 扫描      ║"
 echo "║                                                  ║"
 echo "║  知识库浏览（可选）：                            ║"
 echo "║    cd $PROJECT_DIR/data                          ║"
-echo "║    npx docsify serve .                           ║"
+echo "║    cd data && npx docsify serve .                           ║"
 echo "║    浏览器打开 http://localhost:3000              ║"
 echo "║                                                  ║"
-echo "╚══════════════════════════════════════════════════╝"
 echo "╚══════════════════════════════════════════════════╝"
