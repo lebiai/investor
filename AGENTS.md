@@ -37,10 +37,12 @@
 
 | 来源 | 标签 | 说明 | 工具 |
 |------|------|------|------|
-| agent-reach 搜索 | `[来源: agent-reach]` | 所有互联网实时数据 | agent-reach skill |
-| 知识库 | `[来源: 知识库]` | 本地 data/ 目录下的持久化数据 | data/ 目录 |
+| agent-reach 搜索 | `[来源: agent-reach]` | 所有互联网实时数据 | 执行 `mcporter call 'exa.web_search_exa(query: "...", numResults: N)'` |
+| 知识库 | `[来源: 知识库]` | 本地 data/ 目录下的持久化数据 | 直接读取 data/ 下的文件 |
 
 涉及外部数据的 skill 必须在工作流每个阶段标注 `[来源: ①agent-reach搜索]` 或 `[来源: ②知识库]`。
+
+调用 agent-reach 时必须写出实际的 Exa 搜索命令，不能只写"使用 agent-reach 搜索"。
 
 ## 文档纪律
 

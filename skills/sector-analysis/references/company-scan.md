@@ -45,6 +45,15 @@
 
 ## 数据源
 
+所有数据通过 agent-reach 的 Exa 搜索获取：
+```bash
+# 搜索上市公司数据
+mcporter call 'exa.web_search_exa(query: "[赛道名] 上市公司 [指标] 2025", numResults: 10)'
+
+# 搜索未上市公司融资
+mcporter call 'exa.web_search_exa(query: "[赛道名] 融资 [年份] 估值", numResults: 10)'
+```
+
 ### 上市公司数据
 
 | 数据项 | 优先来源 |
