@@ -1,0 +1,8 @@
+name: investor-content-prod
+description: "基于知识库的内容生产。支持公众号/小红书/朋友圈/投资备忘录等体裁。触发词：帮我写"
+trigger_words:
+  - "帮我写"
+  - "发一篇"
+  - "写个文章"
+  - "做个内容"
+  - "改成文章"

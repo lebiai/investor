@@ -1,0 +1,8 @@
+name: investor-research-digest
+description: "自动文件管理和知识沉淀。上传/链接→转MD→知识库入库→输出摘要。触发词：整理、总结、读一下"
+trigger_words:
+  - "帮我整理"
+  - "总结"
+  - "读一下"
+  - "摘要"
+  - "处理这个文件"

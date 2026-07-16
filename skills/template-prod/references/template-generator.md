@@ -9,16 +9,16 @@
 
 ## 前置条件
 
-模板已在 `knowledge-base/templates/parsed/` 中有解析文件，
-原始文件在 `knowledge-base/templates/original/` 中。
+模板已在 `../../../data/../../../data/templates/parsed/` 中有解析文件，
+原始文件在 `../../../data/../../../data/templates/original/` 中。
 
 ## 生成流程
 
 ### Step 1: 查找模板
 
-1. 查 `knowledge-base/templates/index.md` → 匹配模板名
+1. 查 `../../../data/../../../data/templates/index.md` → 匹配模板名
 2. 未找到 → "模板库中没有[模板名]，已有模板：[列表]"
-3. 找到 → 读取 `knowledge-base/templates/parsed/模板名.md`
+3. 找到 → 读取 `../../../data/../../../data/templates/parsed/模板名.md`
 
 ### Step 2: 收集填写内容
 
@@ -49,7 +49,7 @@
 
 #### 方式A：基于原始模板文件（推荐）
 
-如果 `knowledge-base/templates/original/` 中有原始模板文件：
+如果 `../../../data/../../../data/templates/original/` 中有原始模板文件：
 
 1. 复制原始模板文件到输出目录
 2. 使用内置的文档处理能力打开副本

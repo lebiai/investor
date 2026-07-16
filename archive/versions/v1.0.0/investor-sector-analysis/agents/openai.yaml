@@ -1,0 +1,7 @@
+name: investor-sector-analysis
+description: "多机构辩论模式赛道深度分析。六维分析+六家机构评估+公司扫描+辩论引擎。触发词：分析一下、帮我看看"
+trigger_words:
+  - "分析一下"
+  - "帮我看看"
+  - "赛道"
+  - "行业分析"
