@@ -1,8 +1,0 @@
-name: investor-deal-sourcing
-description: "项目sourcing扫描。说'帮我扫描[领域]的项目'，查知识库+实时搜索→输出项目清单"
-trigger_words:
-  - "帮我扫描"
-  - "有什么项目"
-  - "标的"
-  - "新项目"
-  - "融资"

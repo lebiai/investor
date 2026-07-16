@@ -1,6 +1,0 @@
-name: investor-workbench
-description: "投资人AI助手总入口。说'开工'或'投资助手'展示所有能力"
-trigger_words:
-  - "开工"
-  - "投资助手"
-  - "有什么能力"

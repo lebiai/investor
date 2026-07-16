@@ -7,11 +7,14 @@
 ### 流程
 
 1. 向用户确认：模板名称、用途、需要填写的字段
-2. 调用 markitdown 将文件转为 MD
-3. 分析结构（标题层级、表格、列表、占位符）
-4. 原始文件 → `../../../data/templates/original/`
-5. 解析文件 → `../../../data/templates/parsed/`
-6. 更新 `../../../data/templates/index.md`
+2. 查 `data/templates/index.md` → 检查同名模板是否已存在
+   - 已存在 → "模板[模板名]已存在，覆盖将丢失原有配置，是否确认覆盖？"
+   - 用户确认后继续，否则中止
+3. 调用 markitdown CLI 将文件转为 MD（markitdown <输入文件> -o <输出文件>）
+4. 分析结构（标题层级、表格、列表、占位符）
+5. 原始文件 → `data/templates/original/`
+6. 解析文件 → `data/templates/parsed/`
+7. 更新 `data/templates/index.md`
 
 ## 模式B：从成品文档提取模板 ⭐
 
@@ -21,7 +24,7 @@
 
 #### Step 1: 格式转换
 
-调用 markitdown 将文件转为 MD。
+调用 markitdown CLI 将文件转为 MD（markitdown <输入文件> -o <输出文件>）。
 
 #### Step 2: 结构分析
 
@@ -63,11 +66,15 @@
 
 #### Step 4: 保存
 
-1. 原始文件 → `../../../data/templates/original/[模板名].docx`
-2. 解析文件 → `../../../data/templates/parsed/[模板名].md`
-3. 更新 `../../../data/templates/index.md`
+1. 查 `data/templates/index.md` → 检查同名模板是否已存在
+   - 已存在 → 提示覆盖风险，用户确认后继续
+2. 原始文件 → `data/templates/original/[模板名].docx`
+3. 解析文件 → `data/templates/parsed/[模板名].md`
+4. 更新 `data/templates/index.md`
 
 ## 解析文件格式
+
+文件头部自动加 YAML header（参考 `docs/DATA-STANDARD.md` §3.6）。
 
 ```markdown
 # 模板: [模板名]

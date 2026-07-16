@@ -1,139 +1,92 @@
 #!/usr/bin/env bash
-# ============================================================
-# 投资人技能套件 — 一键初始化脚本
-# 首次部署至 Codex 环境时运行，完成全部技能注册和依赖安装。
-# 用法: bash ../tools/init.sh
-# ============================================================
+# VERSION: 1.4.0
 
 set -euo pipefail
 
-# ── 路径 ──────────────────────────────────────────────
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CODEX_SKILLS_DIR="${CODEX_SKILLS_DIR:-$HOME/.codex/skills}"
-# PATH is managed by each install script; init.sh does not override it
 
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
 echo "║     🚀 投资人技能套件 — 一键初始化               ║"
 echo "╚══════════════════════════════════════════════════╝"
 echo "  项目目录: $PROJECT_DIR"
-echo "  Skills  : $CODEX_SKILLS_DIR"
 echo ""
 
-# ── Step 1: uv ────────────────────────────────────────
-echo "┌─ [1/8] 安装 uv (MarkItDown 运行时) ─────────────┐"
-if command -v uv &>/dev/null; then
-    echo "  ✅ uv 已安装 ($(uv --version))"
+STEP=0
+TOTAL=7
+
+STEP=$((STEP + 1))
+echo "┌─ [$(date +%H:%M:%S)] Step $STEP/$TOTAL: 检测环境 ────────┐"
+command -v python3 &>/dev/null && echo "  ✅ Python3 $(python3 --version 2>&1)"
+command -v pip3 &>/dev/null && echo "  ✅ pip3"
+echo ""
+
+STEP=$((STEP + 1))
+echo "┌─ [$(date +%H:%M:%S)] Step $STEP/$TOTAL: 安装 markitdown ──┐"
+if python3 -c "import markitdown" 2>/dev/null; then
+    echo "  ✅ markitdown $(python3 -c "import importlib.metadata; print(importlib.metadata.version('markitdown'))")"
 else
-    echo "  下载安装中..."
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    echo "  ✅ uv 安装完成"
+    pip3 install markitdown[pdf,pptx,docx,xlsx] -q && echo "  ✅ markitdown" || echo "  ⚠️  失败"
 fi
 echo ""
 
-# ── Step 2: markitdown skill ──────────────────────────
-echo "┌─ [2/8] 安装 markitdown (微软文件转 MD) ─────────┐"
-MARKITDOWN_DIR="$CODEX_SKILLS_DIR/markitdown"
-if [ -f "$MARKITDOWN_DIR/SKILL.md" ]; then
-    echo "  ✅ markitdown 已安装"
-else
-    echo "  克隆仓库..."
-    TMP_REPO=$(mktemp -d)
-    git clone --depth 1 https://github.com/dbzabhilash/markitdown-skill-to-save-tokens.git "$TMP_REPO"
-    mkdir -p "$CODEX_SKILLS_DIR"
-    cp -r "$TMP_REPO"/markitdown "$MARKITDOWN_DIR"
-    rm -rf "$TMP_REPO"
-    echo "  ✅ markitdown 安装完成"
-fi
-echo ""
-
-# ── Step 3: agent-reach skill ─────────────────────────
-echo "┌─ [3/8] 安装 agent-reach (互联网搜索) ───────────┐"
+STEP=$((STEP + 1))
+echo "┌─ [$(date +%H:%M:%S)] Step $STEP/$TOTAL: 注册 agent-reach ──┐"
 AGENT_REACH_DIR="$CODEX_SKILLS_DIR/agent-reach"
 if [ -f "$AGENT_REACH_DIR/SKILL.md" ]; then
-    echo "  ✅ agent-reach 已安装"
+    echo "  ✅ agent-reach 已注册"
 else
-    echo "  克隆仓库..."
-    TMP_REPO=$(mktemp -d)
-    git clone --depth 1 https://github.com/Panniantong/Agent-Reach.git "$TMP_REPO"
-    mkdir -p "$CODEX_SKILLS_DIR"
-    cp -r "$TMP_REPO/agent_reach/skill"/* "$AGENT_REACH_DIR/"
-    rm -rf "$TMP_REPO"
-    echo "  ✅ agent-reach 安装完成"
-    echo "  ⚠️  首次使用 agent-reach 时，可让 AI 运行其安装流程"
+    if [ -d "$PROJECT_DIR/../Agent-Reach" ]; then
+        mkdir -p "$CODEX_SKILLS_DIR"
+        cp -r "$PROJECT_DIR/../Agent-Reach/skill"/* "$AGENT_REACH_DIR/" && echo "  ✅ agent-reach"
+    else
+        echo "  ⚠️  未找到（可手动: git clone https://github.com/Panniantong/Agent-Reach.git）"
+    fi
 fi
 echo ""
 
-# ── Step 3: 注册 5 个投资人技能 ────────────────────────
-echo "┌─ [4/8] 注册投资人技能 ──────────────────────────┐"
-SKILL_LIST="workbench sector-analysis research-digest template-prod content-prod deal-sourcing watch"
+STEP=$((STEP + 1))
+echo "┌─ [$(date +%H:%M:%S)] Step $STEP/$TOTAL: 注册投资人技能 ─────┐"
+SKILL_LIST="init workbench sector-analysis research-digest template-prod content-prod deal-sourcing watch deal-review portfolio-tracker meeting-notes contact-crm"
+COUNT=0
 for skill in $SKILL_LIST; do
     TARGET="$CODEX_SKILLS_DIR/$skill"
+    SRC="$PROJECT_DIR/skills/$skill"
     if [ -L "$TARGET" ] || [ -d "$TARGET" ]; then
-        echo "  ✅ $skill"
-    else
-        ln -sf "$PROJECT_DIR/$skill" "$TARGET"
-        echo "  🔗 $skill → 已注册"
+        echo "  ✅ $skill"; COUNT=$((COUNT + 1))
+    elif [ -d "$SRC" ]; then
+        ln -sf "$SRC" "$TARGET" && echo "  🔗 $skill"; COUNT=$((COUNT + 1))
     fi
 done
+echo "  📊 $COUNT/12"
 echo ""
 
-# ── Step 4: 预下载 MarkItDown 依赖 ─────────────────────
-echo "┌─ [5/8] 预下载 MarkItDown 依赖 ──────────────────┐"
-echo "  首次下载约 30 秒，后续即时..."
-uvx --python 3.12 --from "markitdown[all]" markitdown --help >/dev/null 2>&1 || true
-echo "  ✅ MarkItDown 就绪"
+STEP=$((STEP + 1))
+echo "┌─ [$(date +%H:%M:%S)] Step $STEP/$TOTAL: Office 依赖 ──┐"
+python3 -c "import docx" 2>/dev/null && echo "  ✅ python-docx" || { pip3 install python-docx -q && echo "  ✅ python-docx"; }
+python3 -c "import pptx" 2>/dev/null && echo "  ✅ python-pptx" || { pip3 install python-pptx -q && echo "  ✅ python-pptx"; }
+python3 -c "import openpyxl" 2>/dev/null && echo "  ✅ openpyxl" || { pip3 install openpyxl -q && echo "  ✅ openpyxl"; }
 echo ""
 
-# ── Step 7: docsify ────────────────────────────────────
-echo "┌─ [6/8] 安装 Office 文件生成依赖 ────────────────┐"
-if python3 -c "import docx" 2>/dev/null && python3 -c "import pptx" 2>/dev/null && python3 -c "import openpyxl" 2>/dev/null; then
-    echo "  ✅ python-docx / python-pptx / openpyxl 已安装"
-else
-    echo "  安装中..."
-    pip3 install python-docx python-pptx openpyxl -q
-    echo "  ✅ Office 文件生成依赖安装完成"
-fi
+STEP=$((STEP + 1))
+echo "┌─ [$(date +%H:%M:%S)] Step $STEP/$TOTAL: 创建目录 ──────┐"
+mkdir -p "$PROJECT_DIR/data/portfolio" "$PROJECT_DIR/data/meetings" "$PROJECT_DIR/data/contacts" "$PROJECT_DIR/outputs"
+echo "  ✅ data/ portfolio/ meetings/ contacts/ outputs/"
 echo ""
 
-echo "┌─ [7/8] 安装 docsify (知识库浏览) ───────────────┐"
-if command -v docsify &>/dev/null; then
-    echo "  ✅ docsify 已安装"
-elif command -v npm &>/dev/null; then
-    echo "  安装中..."
-    npm install -g docsify-cli
-    echo "  ✅ docsify 安装完成"
-else
-    echo "  ⚠️  npm 不可用，跳过 docsify"
-    echo "  知识库浏览可选，需 Node.js + npm 后手动安装: npm install -g docsify-cli"
-fi
+STEP=$((STEP + 1))
+echo "┌─ [$(date +%H:%M:%S)] Step $STEP/$TOTAL: 验证 ─────────────┐"
+MARKITDOWN_OK="❌"; python3 -c "import markitdown" 2>/dev/null && MARKITDOWN_OK="✅"
+AGENT_REACH_OK="❌"; [ -f "$AGENT_REACH_DIR/SKILL.md" ] && AGENT_REACH_OK="✅"
+SKILL_COUNT=0
+for s in $SKILL_LIST; do
+    [ -L "$CODEX_SKILLS_DIR/$s" ] || [ -d "$CODEX_SKILLS_DIR/$s" ] && SKILL_COUNT=$((SKILL_COUNT + 1))
+done
+echo "  markitdown: $MARKITDOWN_OK | agent-reach: $AGENT_REACH_OK | 投资人: $SKILL_COUNT/12"
 echo ""
 
-# ── Step 8: 创建 outputs/ ──────────────────────────────
-echo "┌─ [8/8] 创建产出目录 ────────────────────────────┐"
-mkdir -p "$PROJECT_DIR/outputs"
-echo "  ✅ $PROJECT_DIR/outputs/"
-echo ""
-
-# ── 完成 ──────────────────────────────────────────────
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
 echo "║     ✅  初始化完成！                             ║"
-echo "╠══════════════════════════════════════════════════╣"
-echo "║                                                  ║"
-echo "║  现在新建 Codex 会话即可使用：                    ║"
-echo "║                                                  ║"
-echo "║  • "开工"             打开功能菜单              ║"
-echo "║  • "分析一下[赛道]"    赛道深度分析 + 公司扫描  ║"
-echo "║  • "帮我整理这个"      文件→MD→知识库自动沉淀    ║"
-echo "║  • "用[模板]生成"      按模板生成Word/PPT/Excel ║"
-echo "║  • "关注[赛道]"        盯盘跟踪，增量更新知识库   ║"
-echo "║  • "帮我写一篇..."     知识库驱动内容生产       ║"
-echo "║  • "帮我扫描[领域]"    项目 sourcing 扫描      ║"
-echo "║                                                  ║"
-echo "║  知识库浏览（可选）：                            ║"
-echo "║    cd $PROJECT_DIR/data                          ║"
-echo "║    cd data && npx docsify serve .                           ║"
-echo "║    浏览器打开 http://localhost:3000              ║"
-echo "║                                                  ║"
 echo "╚══════════════════════════════════════════════════╝"

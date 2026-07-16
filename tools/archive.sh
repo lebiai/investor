@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
+# VERSION: 2.0.1
 # ============================================================
-# 版本归档脚本
-# 在每次更新 Skill 前运行，将当前版本完整归档到 archive/。
-# 用法: bash tools/archive.sh v2.0.0
+# 技能版本归档脚本 — 只归档 skills/ 下的组件。
+# 用法: bash tools/archive.sh <技能名>
+#
+# 示例:
+#   bash tools/archive.sh sector-analysis
+#   bash tools/archive.sh deal-review
 # ============================================================
 
 set -euo pipefail
@@ -10,59 +14,53 @@ set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 if [ $# -lt 1 ]; then
-    echo "用法: bash tools/archive.sh <版本号>"
-    echo "示例: bash tools/archive.sh v2.0.0"
+    echo "用法: bash tools/archive.sh <技能名>"
+    echo ""
+    echo "技能名:"
+    echo "  sector-analysis / research-digest / template-prod / content-prod /"
+    echo "  deal-sourcing / watch / workbench / deal-review / portfolio-tracker / meeting-notes / contact-crm"
+    echo ""
+    echo "示例:"
+    echo "  bash tools/archive.sh sector-analysis"
     exit 1
 fi
 
-VERSION="$1"
-ARCHIVE_DIR="$PROJECT_DIR/archive/$VERSION"
+COMP_NAME="$1"
+SRC_DIR="$PROJECT_DIR/skills/$COMP_NAME"
+
+if [ ! -d "$SRC_DIR" ]; then
+    echo "❌ skills/$COMP_NAME 不存在"
+    echo "可用技能:"
+    ls -d "$PROJECT_DIR/skills/"*/ | sed 's/.*skills\///' | sed 's/\///'
+    exit 1
+fi
+
+# 读取当前版本号
+VERSION=$(rg '^version: ' "$SRC_DIR/SKILL.md" 2>/dev/null | sed 's/^version: *//' || echo "")
+if [ -z "$VERSION" ]; then
+    echo "❌ $COMP_NAME/SKILL.md 中未找到 version 字段"
+    echo "   请在 YAML 头部添加 version: x.y.z"
+    exit 1
+fi
+
+ARCHIVE_DIR="$PROJECT_DIR/archive/skills/$COMP_NAME/v$VERSION"
 
 if [ -d "$ARCHIVE_DIR" ]; then
-    echo "❌ 版本 $VERSION 已存在: $ARCHIVE_DIR"
-    exit 1
-fi
-
-echo "📦 归档版本 $VERSION ..."
-mkdir -p "$ARCHIVE_DIR"
-
-# 归档技能层
-for dir in workbench sector-analysis research-digest template-prod content-prod deal-sourcing watch; do
-    if [ -d "$PROJECT_DIR/skills/$dir" ]; then
-        cp -r "$PROJECT_DIR/skills/$dir" "$ARCHIVE_DIR/$dir"
-        echo "  ✅ skills/$dir"
+    echo "⚠️  版本 v$VERSION 已存在: $ARCHIVE_DIR"
+    echo "   是否覆盖？(y/N)"
+    read -r CONFIRM
+    if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
+        echo "  已取消"
+        exit 0
     fi
-done
-
-# 归档数据层
-if [ -d "$PROJECT_DIR/data" ]; then
-    cp -r "$PROJECT_DIR/data" "$ARCHIVE_DIR/data"
-    echo "  ✅ data"
+    rm -rf "$ARCHIVE_DIR"
 fi
 
-# 归档工具层
-if [ -d "$PROJECT_DIR/tools" ]; then
-    cp -r "$PROJECT_DIR/tools" "$ARCHIVE_DIR/tools"
-    echo "  ✅ tools"
-fi
-
-# 归档文档层
-if [ -d "$PROJECT_DIR/docs" ]; then
-    cp -r "$PROJECT_DIR/docs" "$ARCHIVE_DIR/docs"
-    echo "  ✅ docs"
-fi
-
-# 归档根文档
-cp "$PROJECT_DIR/AGENTS.md" "$ARCHIVE_DIR/AGENTS.md" 2>/dev/null || true
-cp "$PROJECT_DIR/README.md" "$ARCHIVE_DIR/README.md"
-cp "$PROJECT_DIR/CHANGELOG.md" "$ARCHIVE_DIR/CHANGELOG.md"
-echo "  ✅ AGENTS / README / CHANGELOG"
-
+mkdir -p "$ARCHIVE_DIR"
+cp -r "$SRC_DIR/"* "$ARCHIVE_DIR/"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "✅ 版本 $VERSION 已归档到:"
+echo "✅ skills/$COMP_NAME v$VERSION 已归档"
 echo "   $ARCHIVE_DIR"
-echo ""
-echo "现在可以安全地更新 Skill 了。"
-echo "更新后别忘了在 CHANGELOG.md 添加记录。"
+echo "现在可以安全地修改了。修改后勿忘在 version 字段升版本。"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

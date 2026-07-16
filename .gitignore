@@ -1,9 +1,20 @@
+# 用户内容数据（不追踪）
+data/files/
+data/sectors/
+data/companies/
+data/templates/original/
+data/templates/parsed/
+data/watch/snapshots/
+data/portfolio/
+data/meetings/
+data/contacts/
+outputs/
+personal-growth/vault/
+personal-growth/context/
+personal-growth/inbox/
+personal-growth/pulse/
+
+# 系统
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-*.swp
-*.swo
+*.pyc
+__pycache__/

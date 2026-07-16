@@ -14,6 +14,6 @@
 
 终端运行：
 ```bash
-cd knowledge-base && npx docsify serve .
+cd data && npx docsify serve .
 ```
 浏览器打开 http://localhost:3000

@@ -1,6 +1,7 @@
 ---
 name: investor-sector-analysis
-description: "多机构辩论模式赛道分析。六维分析→六家机构评估→公司层扫描→辩论引擎→输出四件套"
+version: 1.2.0
+description: "从行业全景到赛道投资判断。Phase 0 行业全景图→六维分析→六机构评估→公司扫描→辩论引擎→输出四件套"
 ---
 
 # 赛道分析
@@ -17,7 +18,7 @@ description: "多机构辩论模式赛道分析。六维分析→六家机构评
 
 | 来源 | 调用方式 | 用于哪些阶段 |
 |------|---------|-------------|
-| ① agent-reach 搜索 | 执行 Exa 搜索命令获取互联网实时数据 | Phase 2/3/4 |
+| ① agent-reach 搜索 | 使用 agent-reach 获取互联网实时数据（`[skill:agent-reach]`） | Phase 0/2/3/4 |
 | ② data/ 知识库 | 直接读取本地 data/ 目录下的文件 | Phase 1/7 |
 
 每项数据必须标注来源标签 `[来源: agent-reach]` 或 `[来源: 知识库]`。
@@ -29,15 +30,48 @@ description: "多机构辩论模式赛道分析。六维分析→六家机构评
 
 ## 工作流
 
+### Phase 0: 行业全景扫描 [来源: ①agent-reach搜索]
+
+在赛道分析前，先建立行业上下文。加载 `docs/SEARCH-SOURCES.md` 匹配目标源，再加载 `references/industry-panorama.md`，从 6 个维度扫描行业全景：
+
+1. **产业链图谱** [来源: agent-reach]
+   - 搜索：上下游结构、利润池分布、价值迁移趋势
+2. **政策与监管** [来源: agent-reach]
+   - 搜索：产业政策、监管框架、合规要求
+3. **宏观驱动因素** [来源: agent-reach]
+   - 搜索：技术变革、人口结构、消费趋势
+4. **国际对标** [来源: agent-reach]
+   - 搜索：全球市场格局、成熟市场经验、中国差异
+5. **行业生命周期** [来源: agent-reach]
+   - 判断：导入期/成长期/成熟期/衰退期
+6. **关键成功要素** [来源: agent-reach]
+   - 提炼：在这个行业胜出需要什么
+
+输出格式（直接呈现在会话中）：
+
+```
+━━━ 行业全景：XXXX ━━━━━━━━━━━━━━━━━━━━
+产业链：[上/中/下游摘要]
+政策：[趋势判断]
+国际对标：[全球格局]
+生命周期：[阶段判断]
+```
+
+行业全景输出后进入赛道级别分析。行业上下文将作为 Phase 2 六维分析的输入背景。
+
 ### Phase 1: 加载记忆 + 知识库查询 [来源: ②知识库]
 
-1. 查 `../../data/sectors/` 是否有该赛道的历史分析记录
-2. 如有 → 输出"上次分析过该赛道（YYYY-MM-DD），新信息已合并"
-3. 查 `../../data/companies/` 中已有相关公司
+搜索流程参考 `docs/SEARCH-PROTOCOL.md`：
+
+1. **rg 全文搜索（Phase 1）：** `rg -i "{赛道名}" data/ -l --md`
+   - 匹配到 sectors/ 或 companies/ 中的文件 → 直接读取
+2. **索引表搜索（Phase 2）：** 如 rg 未匹配，查 `data/index.md` 赛道表
+   - 有记录 → 输出"上次分析过该赛道（YYYY-MM-DD），新信息已合并"
+3. **全无结果：** → 输出"该赛道尚无历史分析记录，从零开始完整分析"
 
 ### Phase 2: 六维赛道分析 [来源: ①agent-reach搜索]
 
-加载 `references/analysis-framework.md`，逐个维度执行：
+加载 `docs/SEARCH-SOURCES.md` 匹配目标源，加载 `references/analysis-framework.md`，逐个维度执行：
 
 对每个维度，构造搜索关键词并调用 [skill:agent-reach] 获取数据：
 
@@ -75,20 +109,24 @@ description: "多机构辩论模式赛道分析。六维分析→六家机构评
 
 ### Phase 6: 输出四件套
 
-加载 `references/output-specs.md`，按规范生成：
+加载 `references/output-specs.md`，按规范生成并输出在会话中：
 1. 完整分析报告
 2. 赛道打分卡
 3. 辩论对比表
 4. 公司对比表
 
+**输出方式：** 内容直接呈现在对话中，用户可当场追问或引导到 content-prod 写文章。
+
 ### Phase 7: 知识库入库 [来源: ②知识库]
 
-将本次分析结果写入本地知识库：
-1. 写入 `../../data/sectors/[赛道名].md`
-   - 执行摘要 + 六维概览表 + 关键公司清单 + 累积观点
-2. 写入 `../../data/companies/`（每家公司单独建档）
-   - 基础信息 + 核心数据表 + 知识来源记录
-3. 更新 `../../data/index.md`
+将本次分析结果自动写入本地知识库（用户无需感知）：
+1. 写入 `data/sectors/[赛道名].md`
+   - 格式参考 `docs/DATA-STANDARD.md` §3.1：YAML header（type: sector）+ 正文
+   - 内容：执行摘要 + 六维概览表 + 关键公司清单 + 累积观点
+2. 写入 `data/companies/`（每家公司单独建档）
+   - 格式参考 `docs/DATA-STANDARD.md` §3.2：YAML header（type: company）+ 正文
+   - 内容：基础信息 + 核心数据表 + 知识来源记录
+3. 更新 `data/index.md`（赛道表 + 公司表追加，格式见 §2.1）
 
 ### Phase 8: 交互追问
 

@@ -1,6 +1,7 @@
 # 项目档案模板
 
-写入 `../../../data/companies/` 时的公司档案格式：
+写入 `data/companies/` 时的公司档案格式。
+文件头部必须加 YAML header（参考 `docs/DATA-STANDARD.md` §3.2）：
 
 ```
 # [公司名]
