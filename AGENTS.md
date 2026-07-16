@@ -55,6 +55,65 @@
 
 未安装时 `[skill:agent-reach]` 和 `[skill:markitdown]` 无法生效。init.sh 会自动安装。
 
+## 变更影响矩阵
+
+任何修改操作，对照下表检查需要同步更新的文件：
+
+### 新增或删除 skill
+
+| 需要更新的文件 | 操作 |
+|--------------|------|
+| `skills/[skill-name]/` | 新建或删除整个目录 |
+| `skills/workbench/SKILL.md` | 菜单项 + 路由规则 |
+| `tools/init.sh` | `SKILL_LIST` 列表 |
+| `tools/archive.sh` | `for dir in` 循环 |
+| `README.md` | 技能一览表 |
+| `CHANGELOG.md` | 加记录 |
+| `AGENTS.md` | 如有外部依赖，更新依赖清单 |
+
+前置动作：`bash tools/archive.sh vX.Y.Z`
+
+### 修改 skill 内部逻辑
+
+| 需要更新的文件 | 操作 |
+|--------------|------|
+| `skills/[name]/SKILL.md` | 直接覆盖（不留旧内容） |
+| `skills/[name]/references/*.md` | 如有引用规则变化同步更新 |
+| 其它 skill 的 SKILL.md | 如果接口/路径变了，涉及交叉引用的都要改 |
+
+### 修改目录结构或路径
+
+| 需要更新的文件 | 检查点 |
+|--------------|--------|
+| 所有 `skills/*/SKILL.md` 中的路径引用 | `../../data/` 是否正确 |
+| 所有 `skills/*/references/*.md` 中的路径引用 | `../../../data/` 是否正确 |
+| `tools/init.sh` 和 `tools/archive.sh` 中的路径 | `$PROJECT_DIR/skills/` 等 |
+| `AGENTS.md` | 目录结构分层描述 |
+| `README.md` | 目录树 |
+
+### 修改数据来源或外部调用
+
+| 需要更新的文件 | 检查点 |
+|--------------|--------|
+| 所有引用该来源的 `SKILL.md` | 搜索 `[skill:xxx]` 或 `[来源: xxx]` |
+| `AGENTS.md` | 依赖清单 + 数据来源规范 |
+| `tools/init.sh` | 如需新增/删除安装步骤 |
+
+### 新增文件分类
+
+| 需要更新的文件 | 操作 |
+|--------------|------|
+| `data/files/[新分类]/` | 新建目录 |
+| `skills/research-digest/references/content-analyzer.md` | 添加识别特征 |
+| `skills/research-digest/references/file-processor.md` | 添加归档路径 |
+
+### 通用规则
+
+1. **改前先归档**：`bash tools/archive.sh vX.Y.Z`
+2. **改完搜一遍**：`grep -rn "[关键词]" skills/ tools/ AGENTS.md` 确认无遗漏引用
+3. **更新 CHANGELOG.md**：一行记录
+4. **确认 SKILL.md 无旧版残留**：不允许写新旧对比、升级记录
+
 ## 文档纪律
 
 1. **去旧保新** — 每个 SKILL.md / reference 文件只保留当前最新执行方案，不包含旧版流程、新旧对比、迭代记录
