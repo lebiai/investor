@@ -32,7 +32,6 @@ description: "项目sourcing。说'帮我扫描[领域]的项目'，查知识库
 
 ### Step 2: 实时扫描 [来源: ①agent-reach搜索]
 
-使用 agent-reach 的 Exa 搜索获取实时项目信息。```bash
 
 ```
 

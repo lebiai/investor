@@ -8,7 +8,7 @@
 | Word (.docx) | 微软格式转换 API → MD |
 | PPT (.pptx) | 微软格式转换 API → MD |
 | Excel (.xlsx) | 微软格式转换 API → MD |
-| 网页链接 | agent-reach 获取内容 → Markdown |
+| 网页链接 | [skill:agent-reach] 获取内容 → Markdown |
 | 纯文本 | 直接引用 |
 | 图片 | OCR 提取文字（如需要） |
 

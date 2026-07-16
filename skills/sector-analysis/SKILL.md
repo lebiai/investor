@@ -22,9 +22,9 @@ description: "多机构辩论模式赛道分析。六维分析→六家机构评
 
 每项数据必须标注来源标签 `[来源: agent-reach]` 或 `[来源: 知识库]`。
 
-### 调用 agent-reach 搜索
+### 调用 [skill:agent-reach] 搜索
 
-本 skill 通过 agent-reach 的 Exa 搜索引擎获取互联网数据。
+本 skill 通过 [skill:agent-reach] 获取互联网数据。
 执行后解析返回结果中的 `results[].title` 和 `results[].text` 提取所需信息。
 
 ## 工作流
@@ -39,12 +39,12 @@ description: "多机构辩论模式赛道分析。六维分析→六家机构评
 
 加载 `references/analysis-framework.md`，逐个维度执行：
 
-对每个维度，构造搜索关键词并调用 agent-reach 获取数据：
+对每个维度，构造搜索关键词并调用 [skill:agent-reach] 获取数据：
 
 示例：分析"半导体设备"赛道的"市场规模"维度：
 
 每个维度执行步骤：
-1. 构造该维度的中文搜索关键词，调用 agent-reach 搜索
+1. 构造该维度的中文搜索关键词，调用 [skill:agent-reach] 搜索
 2. 从搜索结果中提取相关数据
 3. 输出评分（1-10）+ 核心判断 + 辩论触发点标注
 4. 每一条数据标注 `[来源: agent-reach]`，按可靠性分级（详见 analysis-framework.md）
