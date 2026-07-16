@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.0.0 - 2026-07-16
+## 2026-07-16
 
 - 项目初始化
 - 创建知识库骨架
@@ -10,5 +10,4 @@
 - 搭建 investor-content-prod（内容产出）
 - 搭建 investor-deal-sourcing（项目 sourcing）
 - 创建 scripts/init.sh（一键初始化脚本）
-- 建立版本管理规范（versions/ + archive.sh）
-- 归档 v1.0.0
+- 完善 README（部署→初始化→使用全流程）

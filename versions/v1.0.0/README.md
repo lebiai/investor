@@ -16,7 +16,7 @@
 
 进入项目会话，说 **"初始化"**，一键完成：
 - ✅ 安装 `uv`（MarkItDown 运行时）
-- ✅ 安装 `markitdown` skill（微软文件转 MD）
+- ✅ 安装 `markitdown` skill（微软文件转 MD，支持 PDF/Word/PPT/Excel/图片/音频/YouTube）
 - ✅ 注册 5 个投资人技能
 - ✅ 预下载 MarkItDown 依赖
 - ✅ 安装 `docsify`（知识库浏览）
@@ -41,33 +41,19 @@
 
 ```
 投资人/
-├── versions/               ← 版本归档（每版完整快照，只增不删）
-│   └── v1.0.0/             ← 初始版本
 ├── scripts/
-│   ├── init.sh             ← 一键初始化
-│   └── archive.sh          ← 版本归档（更新前运行）
+│   └── init.sh            ← 一键初始化脚本（"初始化"触发）
 ├── knowledge-base/         ← 共享知识库（自动累积）
-├── investor-*/             ← 5 个 skill（当前最新版本）
+├── investor-workbench/     ← 总入口 skill
+├── investor-sector-analysis/  ← 赛道分析 skill
+├── investor-research-digest/  ← 信息管理 skill
+├── investor-content-prod/     ← 内容产出 skill
+├── investor-deal-sourcing/    ← 项目扫描 skill
 ├── docs/                   ← 设计文档 + 实施计划
 ├── outputs/                ← 内容产出物
 ├── README.md               ← 本文件
-└── CHANGELOG.md            ← 版本变更记录
+└── CHANGELOG.md            ← 修改记录
 ```
-
-## 版本管理规范
-
-**原则：** 每个 SKILL.md 只保留当前最新执行方案，不包含旧版流程、新旧对比、迭代记录。
-
-**更新流程：**
-```bash
-# 1. 归档当前版本
-bash scripts/archive.sh v1.1.0
-
-# 2. 直接修改 SKILL.md（覆盖式，不写旧版内容）
-# 3. 在 CHANGELOG.md 加一行记录
-```
-
-**查看历史：** 所有旧版本完整保留在 `versions/` 目录下。
 
 ## 知识库浏览
 
@@ -80,6 +66,8 @@ cd knowledge-base && npx docsify serve .
 ## 迁移
 
 ```bash
+# 打包整个目录交付给投资人
+cd /path/to/
 tar czf 投资人.tar.gz 投资人/
 ```
 
