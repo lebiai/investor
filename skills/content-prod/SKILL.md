@@ -17,7 +17,7 @@ description: "基于知识库的内容生产。说'帮我写一篇关于[话题]
 ### Step 1: 查知识库
 
 1. 搜索 `../../data/sectors/` 和 `../../data/companies/`
-2. 搜索 `../../data/../../data/file-index.md` 查阅相关研报摘要
+2. 搜索 `../../data/file-index.md` 查阅相关研报摘要
 3. 输出找到的素材清单给用户确认：
    ```
    已找到以下素材：

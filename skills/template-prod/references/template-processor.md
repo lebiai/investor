@@ -9,9 +9,9 @@
 1. 向用户确认：模板名称、用途、需要填写的字段
 2. 调用 markitdown 将文件转为 MD
 3. 分析结构（标题层级、表格、列表、占位符）
-4. 原始文件 → `../../../data/../../../data/templates/original/`
-5. 解析文件 → `../../../data/../../../data/templates/parsed/`
-6. 更新 `../../../data/../../../data/templates/index.md`
+4. 原始文件 → `../../../data/templates/original/`
+5. 解析文件 → `../../../data/templates/parsed/`
+6. 更新 `../../../data/templates/index.md`
 
 ## 模式B：从成品文档提取模板 ⭐
 
@@ -63,9 +63,9 @@
 
 #### Step 4: 保存
 
-1. 原始文件 → `../../../data/../../../data/templates/original/[模板名].docx`
-2. 解析文件 → `../../../data/../../../data/templates/parsed/[模板名].md`
-3. 更新 `../../../data/../../../data/templates/index.md`
+1. 原始文件 → `../../../data/templates/original/[模板名].docx`
+2. 解析文件 → `../../../data/templates/parsed/[模板名].md`
+3. 更新 `../../../data/templates/index.md`
 
 ## 解析文件格式
 
