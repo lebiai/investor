@@ -21,7 +21,7 @@ echo "  Skills  : $CODEX_SKILLS_DIR"
 echo ""
 
 # ── Step 1: uv ────────────────────────────────────────
-echo "┌─ [1/6] 安装 uv (MarkItDown 运行时) ─────────────┐"
+echo "┌─ [1/8] 安装 uv (MarkItDown 运行时) ─────────────┐"
 if command -v uv &>/dev/null; then
     echo "  ✅ uv 已安装 ($(uv --version))"
 else
@@ -32,7 +32,7 @@ fi
 echo ""
 
 # ── Step 2: markitdown skill ──────────────────────────
-echo "┌─ [2/6] 安装 markitdown (微软文件转 MD) ─────────┐"
+echo "┌─ [2/8] 安装 markitdown (微软文件转 MD) ─────────┐"
 MARKITDOWN_DIR="$CODEX_SKILLS_DIR/markitdown"
 if [ -f "$MARKITDOWN_DIR/SKILL.md" ]; then
     echo "  ✅ markitdown 已安装"
@@ -47,8 +47,25 @@ else
 fi
 echo ""
 
+# ── Step 3: agent-reach skill ─────────────────────────
+echo "┌─ [3/8] 安装 agent-reach (互联网搜索) ───────────┐"
+AGENT_REACH_DIR="$CODEX_SKILLS_DIR/agent-reach"
+if [ -f "$AGENT_REACH_DIR/SKILL.md" ]; then
+    echo "  ✅ agent-reach 已安装"
+else
+    echo "  克隆仓库..."
+    TMP_REPO=$(mktemp -d)
+    git clone --depth 1 https://github.com/Panniantong/Agent-Reach.git "$TMP_REPO"
+    mkdir -p "$CODEX_SKILLS_DIR"
+    cp -r "$TMP_REPO/*" "$AGENT_REACH_DIR/"
+    rm -rf "$TMP_REPO"
+    echo "  ✅ agent-reach 安装完成"
+    echo "  ⚠️  首次使用 agent-reach 时，可能需要运行其内置安装流程"
+fi
+echo ""
+
 # ── Step 3: 注册 5 个投资人技能 ────────────────────────
-echo "┌─ [3/6] 注册投资人技能 ──────────────────────────┐"
+echo "┌─ [4/8] 注册投资人技能 ──────────────────────────┐"
 SKILL_LIST="workbench sector-analysis research-digest template-prod content-prod deal-sourcing"
 for skill in $SKILL_LIST; do
     TARGET="$CODEX_SKILLS_DIR/$skill"
@@ -62,14 +79,14 @@ done
 echo ""
 
 # ── Step 4: 预下载 MarkItDown 依赖 ─────────────────────
-echo "┌─ [4/6] 预下载 MarkItDown 依赖 ──────────────────┐"
+echo "┌─ [5/8] 预下载 MarkItDown 依赖 ──────────────────┐"
 echo "  首次下载约 30 秒，后续即时..."
 uvx --python 3.12 --from "markitdown[all]" markitdown --help >/dev/null 2>&1 || true
 echo "  ✅ MarkItDown 就绪"
 echo ""
 
 # ── Step 5: docsify ────────────────────────────────────
-echo "┌─ [5/7] 安装 Office 文件生成依赖 ────────────────┐"
+echo "┌─ [6/8] 安装 Office 文件生成依赖 ────────────────┐"
 if python3 -c "import docx" 2>/dev/null && python3 -c "import pptx" 2>/dev/null && python3 -c "import openpyxl" 2>/dev/null; then
     echo "  ✅ python-docx / python-pptx / openpyxl 已安装"
 else
@@ -79,7 +96,7 @@ else
 fi
 echo ""
 
-echo "┌─ [6/7] 安装 docsify (知识库浏览) ───────────────┐"
+echo "┌─ [7/8] 安装 docsify (知识库浏览) ───────────────┐"
 if command -v docsify &>/dev/null; then
     echo "  ✅ docsify 已安装"
 else
@@ -90,7 +107,7 @@ fi
 echo ""
 
 # ── Step 6: 创建 outputs/ ──────────────────────────────
-echo "┌─ [7/7] 创建产出目录 ────────────────────────────┐"
+echo "┌─ [8/8] 创建产出目录 ────────────────────────────┐"
 mkdir -p "$PROJECT_DIR/outputs"
 echo "  ✅ $PROJECT_DIR/outputs/"
 echo ""

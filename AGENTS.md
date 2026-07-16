@@ -44,6 +44,17 @@
 
 调用 agent-reach 时必须写出实际的 Exa 搜索命令，不能只写"使用 agent-reach 搜索"。
 
+## 外部依赖
+
+本项目的 3 个 skill（sector-analysis / research-digest / deal-sourcing）依赖以下外部 skill：
+
+| 外部 skill | 用途 | 安装方式（init.sh 自动完成） |
+|-----------|------|---------------------------|
+| agent-reach | 互联网数据搜索（Exa / 网页 / GitHub 等） | `git clone https://github.com/Panniantong/Agent-Reach.git` → skills 目录 |
+| markitdown | 文件转 MD（PDF/Word/PPT/Excel） | `git clone https://github.com/dbzabhilash/markitdown-skill-to-save-tokens.git` → skills 目录 |
+
+未安装时 `[skill:agent-reach]` 和 `[skill:markitdown]` 无法生效。init.sh 会自动安装。
+
 ## 文档纪律
 
 1. **去旧保新** — 每个 SKILL.md / reference 文件只保留当前最新执行方案，不包含旧版流程、新旧对比、迭代记录
