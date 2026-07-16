@@ -27,7 +27,7 @@ echo "📦 归档版本 $VERSION ..."
 mkdir -p "$ARCHIVE_DIR"
 
 # 归档技能层
-for dir in workbench sector-analysis research-digest template-prod content-prod deal-sourcing watch; do
+for dir in workbench sector-analysis research-digest template-prod content-prod deal-sourcing; do
     if [ -d "$PROJECT_DIR/skills/$dir" ]; then
         cp -r "$PROJECT_DIR/skills/$dir" "$ARCHIVE_DIR/$dir"
         echo "  ✅ skills/$dir"

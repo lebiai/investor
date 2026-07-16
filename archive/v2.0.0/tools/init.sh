@@ -66,7 +66,7 @@ echo ""
 
 # ── Step 3: 注册 5 个投资人技能 ────────────────────────
 echo "┌─ [4/8] 注册投资人技能 ──────────────────────────┐"
-SKILL_LIST="workbench sector-analysis research-digest template-prod content-prod deal-sourcing watch"
+SKILL_LIST="workbench sector-analysis research-digest template-prod content-prod deal-sourcing"
 for skill in $SKILL_LIST; do
     TARGET="$CODEX_SKILLS_DIR/$skill"
     if [ -L "$TARGET" ] || [ -d "$TARGET" ]; then
@@ -127,7 +127,6 @@ echo "║  • "开工"             打开功能菜单              ║"
 echo "║  • "分析一下[赛道]"    赛道深度分析 + 公司扫描  ║"
 echo "║  • "帮我整理这个"      文件→MD→知识库自动沉淀    ║"
 echo "║  • "用[模板]生成"      按模板生成Word/PPT/Excel ║"
-echo "║  • "关注[赛道]"        盯盘跟踪，增量更新知识库   ║"
 echo "║  • "帮我写一篇..."     知识库驱动内容生产       ║"
 echo "║  • "帮我扫描[领域]"    项目 sourcing 扫描      ║"
 echo "║                                                  ║"

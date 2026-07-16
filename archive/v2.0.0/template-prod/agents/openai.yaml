@@ -1,0 +1,8 @@
+name: investor-template-prod
+description: "模板类文档生成。上传模板→解析结构→按模板格式生成内容。支持Word/Excel/PPT。触发词：模板、套模板、生成文档"
+trigger_words:
+  - "模板"
+  - "套模板"
+  - "生成文档"
+  - "保存模板"
+  - "按模板"

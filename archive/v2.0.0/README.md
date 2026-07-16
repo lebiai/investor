@@ -48,7 +48,6 @@
 | `research-digest` | "帮我整理这个" | 文件→MD→知识库自动沉淀 |
 | `template-prod` | "用[模板名]生成" / "把这个模板化" | 上传/提取模板→生成Word/PPT/Excel |
 | `content-prod` | "帮我写一篇[话题]的[体裁]" | 知识库驱动内容生产 |
-| `watch` | "关注[赛道]" / "[赛道]有什么新动态" | 盯盘跟踪，增量更新 |
 | `deal-sourcing` | "帮我扫描[领域]的项目" | 项目 sourcing |
 
 ## 版本规范
