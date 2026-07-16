@@ -41,7 +41,7 @@ else
     TMP_REPO=$(mktemp -d)
     git clone --depth 1 https://github.com/dbzabhilash/markitdown-skill-to-save-tokens.git "$TMP_REPO"
     mkdir -p "$CODEX_SKILLS_DIR"
-    cp -r "$TMP_REPO/markitdown" "$MARKITDOWN_DIR"
+    cp -r "$TMP_REPO"/markitdown "$MARKITDOWN_DIR"
     rm -rf "$TMP_REPO"
     echo "  ✅ markitdown 安装完成"
 fi
@@ -57,10 +57,10 @@ else
     TMP_REPO=$(mktemp -d)
     git clone --depth 1 https://github.com/Panniantong/Agent-Reach.git "$TMP_REPO"
     mkdir -p "$CODEX_SKILLS_DIR"
-    cp -r "$TMP_REPO/*" "$AGENT_REACH_DIR/"
+    cp -r "$TMP_REPO/agent_reach/skill"/* "$AGENT_REACH_DIR/"
     rm -rf "$TMP_REPO"
     echo "  ✅ agent-reach 安装完成"
-    echo "  ⚠️  首次使用 agent-reach 时，可能需要运行其内置安装流程"
+    echo "  ⚠️  首次使用 agent-reach 时，可让 AI 运行其安装流程"
 fi
 echo ""
 
