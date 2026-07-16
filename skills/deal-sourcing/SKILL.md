@@ -32,14 +32,8 @@ description: "项目sourcing。说'帮我扫描[领域]的项目'，查知识库
 
 ### Step 2: 实时扫描 [来源: ①agent-reach搜索]
 
-使用 agent-reach 的 Exa 搜索获取实时项目信息。标准调用方式：
+使用 agent-reach 的 Exa 搜索获取实时项目信息。```bash
 
-```bash
-# 搜索融资事件
-mcporter call 'exa.web_search_exa(query: "[领域] 融资 2026 投资", numResults: 10)'
-
-# 搜索新入局者和资本布局
-mcporter call 'exa.web_search_exa(query: "[领域] 新项目 入局 布局 2026", numResults: 10)'
 ```
 
 搜索覆盖：

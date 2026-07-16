@@ -37,7 +37,7 @@
 
 | 来源 | 标签 | 说明 | 工具 |
 |------|------|------|------|
-| agent-reach 搜索 | `[来源: agent-reach]` | 所有互联网实时数据 | 执行 `mcporter call 'exa.web_search_exa(query: "...", numResults: N)'` |
+| agent-reach 搜索 | `[来源: agent-reach]` | 所有互联网实时数据 | 执行  |
 | 知识库 | `[来源: 知识库]` | 本地 data/ 目录下的持久化数据 | 直接读取 data/ 下的文件 |
 
 涉及外部数据的 skill 必须在工作流每个阶段标注 `[来源: ①agent-reach搜索]` 或 `[来源: ②知识库]`。

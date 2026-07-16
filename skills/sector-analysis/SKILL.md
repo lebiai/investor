@@ -24,12 +24,7 @@ description: "多机构辩论模式赛道分析。六维分析→六家机构评
 
 ### 调用 agent-reach 搜索
 
-本 skill 通过 agent-reach 的 Exa 搜索引擎获取互联网数据。标准调用方式：
-
-```bash
-mcporter call 'exa.web_search_exa(query: "[搜索关键词]", numResults: 5)'
-```
-
+本 skill 通过 agent-reach 的 Exa 搜索引擎获取互联网数据。
 执行后解析返回结果中的 `results[].title` 和 `results[].text` 提取所需信息。
 
 ## 工作流
@@ -45,14 +40,8 @@ mcporter call 'exa.web_search_exa(query: "[搜索关键词]", numResults: 5)'
 加载 `references/analysis-framework.md`，逐个维度执行：
 
 对每个维度，构造搜索关键词并调用 agent-reach 获取数据：
-```bash
-mcporter call 'exa.web_search_exa(query: "[维度名] [赛道名] 2025 2026", numResults: 5)'
-```
 
 示例：分析"半导体设备"赛道的"市场规模"维度：
-```bash
-mcporter call 'exa.web_search_exa(query: "半导体设备 市场规模 2025 2026", numResults: 5)'
-```
 
 每个维度执行步骤：
 1. 构造该维度的中文搜索关键词，调用 agent-reach 搜索
@@ -72,14 +61,8 @@ mcporter call 'exa.web_search_exa(query: "半导体设备 市场规模 2025 2026
 加载 `references/company-scan.md`：
 
 1. 搜索上市公司数据：
-```bash
-mcporter call 'exa.web_search_exa(query: "[赛道名] 上市公司 排名 营收 2025", numResults: 10)'
-```
 
 2. 搜索未上市公司融资信息：
-```bash
-mcporter call 'exa.web_search_exa(query: "[赛道名] 融资 2025 2026 估值", numResults: 10)'
-```
 3. 生成公司对比表
 4. 输出投资信号
 
