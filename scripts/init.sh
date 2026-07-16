@@ -69,7 +69,17 @@ echo "  ✅ MarkItDown 就绪"
 echo ""
 
 # ── Step 5: docsify ────────────────────────────────────
-echo "┌─ [5/6] 安装 docsify (知识库浏览) ───────────────┐"
+echo "┌─ [5/7] 安装 Office 文件生成依赖 ────────────────┐"
+if python3 -c "import docx" 2>/dev/null && python3 -c "import pptx" 2>/dev/null && python3 -c "import openpyxl" 2>/dev/null; then
+    echo "  ✅ python-docx / python-pptx / openpyxl 已安装"
+else
+    echo "  安装中..."
+    pip3 install python-docx python-pptx openpyxl -q
+    echo "  ✅ Office 文件生成依赖安装完成"
+fi
+echo ""
+
+echo "┌─ [6/7] 安装 docsify (知识库浏览) ───────────────┐"
 if command -v docsify &>/dev/null; then
     echo "  ✅ docsify 已安装"
 else
@@ -80,7 +90,7 @@ fi
 echo ""
 
 # ── Step 6: 创建 outputs/ ──────────────────────────────
-echo "┌─ [6/6] 创建产出目录 ────────────────────────────┐"
+echo "┌─ [7/7] 创建产出目录 ────────────────────────────┐"
 mkdir -p "$PROJECT_DIR/outputs"
 echo "  ✅ $PROJECT_DIR/outputs/"
 echo ""
