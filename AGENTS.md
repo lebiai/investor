@@ -51,7 +51,7 @@
 | 外部 skill | 用途 | 安装方式（init.sh 自动完成） |
 |-----------|------|---------------------------|
 | agent-reach | 互联网数据搜索（Exa / 网页 / GitHub 等） | `git clone https://github.com/Panniantong/Agent-Reach.git` → skills 目录 |
-| markitdown | 文件转 MD（PDF/Word/PPT/Excel） | 底层技术：`microsoft/markitdown`，skill 封装：`dbzabhilash/markitdown-skill-to-save-tokens`（init.sh 自动安装） |
+| markitdown | 文件转 MD（PDF/Word/PPT/Excel） | `https://github.com/microsoft/markitdown`（init.sh 自动安装 skill 封装） |
 
 未安装时 `[skill:agent-reach]` 和 `[skill:markitdown]` 无法生效。init.sh 会自动安装。
 
